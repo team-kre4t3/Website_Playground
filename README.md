@@ -1,7 +1,7 @@
 # Website_Playground
 A basic website for our team.
 
-##Basic Tasks:
+## Basic Tasks:
   - Decide on layout, including:
     - Navigation bar
     - Projects showcase
