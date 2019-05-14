@@ -1,0 +1,248 @@
+
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.LinkedList;
+
+
+class Graph {
+    List<Integer> adjList[];
+    boolean visited[];
+    int dist[];
+    Graph() {
+        adjList = new List[1440]; 
+        for (int i = 0; i < 1440; i++) {
+            adjList[i] = new ArrayList<Integer>();
+        }
+        for (int i = 0; i <= 23; i++) {
+            for (int j = 0; j <= 59; j++) {
+                int curr = i*60 + j;
+                int h = i, m = j;
+                
+
+                if (j == 59) {
+                    m = 0;
+                    h = i + 1;
+                    if (h > 23) h = 0;
+                    adjList[curr].add(h*60 + m);
+                } else {
+                    adjList[curr].add(i*60 + j+1);
+                }
+
+                if (j == 0) {
+                    m = 59;
+                    h = i-1;
+                    if (h < 0) h = 23;
+                    adjList[curr].add(h*60 + m);
+                } else {
+                    adjList[curr].add(i*60 + j-1);
+                }
+
+                if (i == 0) {
+                    h = 23;
+                    adjList[curr].add(h*60 + j);
+                } else {
+                    adjList[curr].add((i-1)*60 + j);
+                }
+
+                if (i == 23) {
+                    h = 0;
+                    adjList[curr].add(h*60 + j);
+                } else {
+                    adjList[curr].add((i+1)*60 + j);
+                }
+
+                if (curr < 720) {
+                    adjList[curr].add(curr + 720);
+                } else {
+                    adjList[curr].add(curr - 720);
+                }
+            }
+        }
+    }
+
+    int shortestDist(int a, int b) {
+        if (a == b) return 0;
+        //queue = new int[MAX];
+        /*for (int x: adjList[a]) {
+            System.out.print(x + " ");
+        }*/
+        /*System.out.println();
+        for (int x: adjList[40]) {
+            System.out.print(x + " ");
+        }*/
+        //System.out.println();
+        LinkedList<Integer> queue = new LinkedList<>();
+        dist = new int[1440];
+        visited = new boolean[1440];
+        queue.add(a);
+        //System.out.println(front);
+        dist[a] = 0;
+        visited[a] = true;
+        int ans = -1;
+        while(queue.size() > 0) {
+            int curr = queue.poll();
+            //System.out.print("Root: " + curr + " ");
+            for (int i: adjList[curr]) {
+                if (visited[i] == false) {
+                    //System.out.println(i);
+                    //System.out.print(i + " ");
+                    visited[i] = true;
+                    queue.addLast(i);
+                    dist[i] = dist[curr] + 1;
+                    if (i == b) {
+                        ans = dist[b];
+                        break;
+                    }
+                }
+            }
+            //System.out.println("Dist: "  +dist[curr]);
+            //queue.removeFirst();
+            if (ans != -1) break;
+        }
+        return ans;
+    }        
+}
+
+public class answer {
+    public static void main(String[] args) {
+        int n;
+        Scanner Sc = new Scanner(System.in);
+        n = Sc.nextInt();
+        Graph g = new Graph();
+        int num[] = new int[2];
+        while(n > 0) {
+            for (int i = 0; i < 2; i++) {
+                String Time = Sc.next();            //stores "HH:MM" time
+                String AoP = Sc.next();             //stores "am" or "pm"
+                String[] T = Time.trim().split(":");
+                int HH = Integer.parseInt(T[0]);    //stores hour
+                int MM = Integer.parseInt(T[1]);
+                if (HH == 12) {
+                    if (AoP.equals("am")) num[i] = MM;
+                    else num[i] = 12*60 + MM;
+                } else {
+                    if (AoP.equals("am")) num[i] = ((HH)*60) + MM;
+                    else num[i] = ((HH)+12)*60 + MM;
+                }
+            }
+            System.out.println(g.shortestDist(num[0], num[1]));
+            n--;
+        }
+    }
+}
+
+
+
+-- 
+Regards,
+Pratham Gupta
+B.Tech CSE 
+
+
+
+
+
+Conversation opened. 1 read message.
+
+Skip to content
+Using Gmail with screen readers
+
+1 of 2,591
+Fwd:
+
+Ashmit Dassi <ashmit18024@iiitd.ac.in>
+1:44 PM (11 minutes ago)
+to me, Pratham
+
+
+---------- Forwarded message ---------
+From: Ojasva Saxena <ojasva18352@iiitd.ac.in>
+Date: Fri, Apr 5, 2019, 11:50
+Subject: 
+To: Ashmit Dassi <ashmit18024@iiitd.ac.in>
+
+
+import java.util.Scanner;
+import java.util.LinkedList;
+
+class Graph
+{
+    LinkedList<Integer> adjList[];
+    int n;
+    String color[];
+    int time , discovery[] , finished[];
+    
+    Graph(int v)
+    {
+        n = v;
+        adjList = new LinkedList[v];
+        color = new String[v];
+        discovery = new int[n];
+        finished = new int[n];
+        time = 0;
+
+        for(int i=0; i<v ; i++)
+        {
+            adjList[i] = new LinkedList<Integer>();
+            color[i] = "WHITE";
+            discovery[i] = 0;
+            finished[i] = 0;
+        }
+    }
+
+    void undirectedEdge(int from , int to)
+    {
+        adjList[from-1].add(to-1);
+        adjList[to-1].add(from-1);
+    }
+
+    void directedEdge(int from , int to)
+    {
+        adjList[from-1].add(to-1);
+    }
+
+    void DFS()
+    {
+        for(int i=0 ; i<n ; i++)
+            color[i] = "WHITE";
+        time = 0;
+
+        for(int i=0 ; i<n ; i++)
+        {
+            if(color[i].equals("WHITE"))
+                DFS_visit(i);
+        }
+
+        for(int i=0 ; i<n ; i++)
+            System.out.println(i+1 + " : " + discovery[i] + " , " + finished[i]);
+    }
+
+    void DFS_visit(int start)
+    {
+        color[start] = "GREY";
+        discovery[start] = ++time;
+
+        for(int x : adjList[start])
+        {
+            if(color[x] == "WHITE")
+                DFS_visit(x);
+        }
+        color[start] = "BLACK";
+        finished[start] = ++time;
+    }
+
+    void print()
+    {
+        for(int i=0 ; i<n ; i++)
+        {   
+            System.out.print(i+1 + " : ");
+            for(int x : adjList[i])
+                System.out.print(x+1 + " ");
+            System.out.println();
+        }
+
+    }
+}
+
