@@ -1,0 +1,27 @@
+.nav-des{
+    background-color: #559adb;
+}
+.txt-col{
+    color: white;
+    background-color: #559adb;
+}
+.img-het{
+    max-height: 300px;
+}
+.img-hgt{
+    max-height: 600px;
+}
+.txt-bac{
+    background: rgba(85,154,219 ,0.5);
+    color: white;
+}
+.txt-cad{
+    background: rgba(85,154,219 ,0.5);
+    color: black;
+}
+.bod-bac{
+    background: rgba(85,154,219 ,0.5);
+}
+.people-bac{
+    background: rgb(35, 35, 209);
+}
